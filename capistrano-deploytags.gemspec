@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'capistrano_deploytags'
+  s.name        = 'capistrano-deploytags'
   s.version     = '0.5'
   s.date        = '2012-04-02'
   s.summary     = "Add dated, environment-specific tags to your git repo at each deployment."
