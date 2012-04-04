@@ -1,10 +1,10 @@
 Capistrano Deployment Tags
 ==========================
-This plugin to Capistrano will add tags for each deployment that
-you make to the project. It is intnded to be used with the multistage
-plugin and will tag each release by environment. Each successful
-deployment will result in a new tag as well as moving an existing
-tag that points to the last deployment.
+This plugin to Capistrano will add timestamped and latest Git tags
+at each deployment, automatically.  It is intended to be used with
+the multistage recipe and will tag each release by environment.
+You can, however, use it without multistage simply by setting :branch
+and :stage in your recipe.
 
 What It Does
 ------------
