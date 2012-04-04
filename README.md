@@ -32,7 +32,7 @@ Usage
 If you use Bundler, be sure to add the gem to your Gemfile.
 In your Capistrano `config/deploy.rb` you should add:
 
-`require 'capistrano_deploytags'`
+`require 'capistrano-deploytags'`
 
 This will create two tasks, one that runs before deployment and one
 that runs after.
