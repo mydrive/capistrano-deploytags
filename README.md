@@ -8,6 +8,7 @@ and :stage in your recipe.
 
 What It Does
 ------------
+Simply: it makes it so you can track your deployments from Git.
 If I were to issue the command:
 
 `cap production deploy`
