@@ -35,7 +35,7 @@ module Capistrano
     def self.load_into(configuration)
       configuration.load do
         before :deploy, 'git:prepare_tree'
-        after  :deploy, 'git:deploytags'
+        after  :deploy, 'git:tagdeploy'
 
         desc 'prepare git tree so we can tag on successful deployment'
         namespace :git do
