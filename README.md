@@ -29,6 +29,12 @@ probably a thousand other things I haven't thought of.
 
 Usage
 -----
+capistrano-deploytags is available on
+[rubygems.org](https://rubygems.org/gems/capistrano-deploytags).
+You can install it from there with:
+
+`gem install capistrano-deploytags`
+
 If you use Bundler, be sure to add the gem to your Gemfile.
 In your Capistrano `config/deploy.rb` you should add:
 
