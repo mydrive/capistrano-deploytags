@@ -3,7 +3,9 @@ Gem::Specification.new do |s|
   s.version     = '0.5'
   s.date        = '2012-04-02'
   s.summary     = "Add dated, environment-specific tags to your git repo at each deployment."
-  s.description = s.summary
+  s.description = <<-EOS 
+  All you have to do is require capistrano-deploytags and each deployment will add a new tag for that deployment, and will move the *-latest tag to the latest commit. This lets you easily see which code is deployed on each environment, and allows you to figure out which code was running in an environment at any time in the past.
+  EOS
   s.authors     = ["Karl Matthias"]
   s.email       = 'relistan@gmail.com'
   s.files       = Dir.glob("lib/**/*") + %w{ README.md LICENSE }
