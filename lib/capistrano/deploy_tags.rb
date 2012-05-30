@@ -9,10 +9,6 @@ module Capistrano
       "#{stage}-#{Time.now.strftime("%Y.%m.%d-%H%M%S")}"
     end
     
-    def last_git_tag_for(stage)
-      "#{stage}-latest"
-    end
-    
     def safe_run(*args)
       raise "#{args.join(" ")} failed!" unless system(*args)
     end
@@ -62,12 +58,7 @@ module Capistrano
           
             tag_user = (ENV['USER'] || ENV['USERNAME']).strip
             cdt.safe_run "git", "tag", "-a", cdt.git_tag_for(stage), "-m", "#{tag_user} deployed #{current_sha} to #{stage}"
-            if cdt.git_tag?(cdt.last_git_tag_for(stage))
-              cdt.safe_run "git", "tag", "-d", cdt.last_git_tag_for(stage)
-              cdt.safe_run "git", "push", "origin", ":refs/tags/#{cdt.last_git_tag_for(stage)}" if cdt.has_remote?
-            end
           
-            cdt.safe_run "git", "tag", "-a", cdt.last_git_tag_for(stage), "-m", "#{tag_user} deployed #{current_sha} to #{stage}"
             cdt.safe_run "git", "push", "--tags" if cdt.has_remote?
           end
         end

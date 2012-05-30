@@ -64,10 +64,9 @@ describe Capistrano::DeployTags do
       with_clean_repo do
         configuration.find_and_execute_task('git:tagdeploy')
 
-        tags = `git tag -l`.split(/\n/).sort
-        tags.should have(2).items
+        tags = `git tag -l`.split(/\n/)
+        tags.should have(1).items
         tags.first.should =~ /^test-\d{4}\.\d{2}\.\d{2}/
-        tags.last.should == 'test-latest'
       end
     end
   end
