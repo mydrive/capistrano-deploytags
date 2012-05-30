@@ -1,6 +1,6 @@
 Capistrano Deployment Tags
 ==========================
-This plugin to Capistrano will add timestamped and latest Git tags
+This plugin to Capistrano will add a timestamped Git tag
 at each deployment, automatically.  It is intended to be used with
 the multistage recipe and will tag each release by environment.
 You can, however, use it without multistage simply by setting :branch
@@ -17,10 +17,6 @@ This would result in one new git tag with the environment and
 timestamp:
 
 `production-2012.04.02-203155`
-
-It would also result in moving or creating this tag:
-
-`production-latest`
 
 These tags can be used for any number of useful things including
 generating statistics about deployments per day/week/year, tracking
