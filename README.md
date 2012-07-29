@@ -49,7 +49,7 @@ is clean and complain if it is not.
 Credits
 -------
 This software was written by [Karl Matthias](https://github.com/relistan)
-with help from [Gavin Heavyside](https://github.com/hgavin) and the
+with help from [Gavin Heavyside](https://github.com/gavinheavyside) and the
 support of [MyDrive Solutions Limited](http://mydrivesolutions.com).
 
 License
