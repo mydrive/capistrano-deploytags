@@ -46,6 +46,19 @@ clean checkout anyway, so in most cases this is not a restriction
 on how you already do things. The plugin will check if your code
 is clean and complain if it is not.
 
+Helpful Git Config
+------------------
+You might find it useful to add this to your ~/.gitconfig in order
+to get a nice history view of the commits and tags.
+
+```
+[alias]
+   lol = log --pretty=oneline --abbrev-commit --graph --decorate
+```
+
+You can then view the list by typing `git lol` from the checked out
+code path.
+
 Credits
 -------
 This software was written by [Karl Matthias](https://github.com/relistan)
