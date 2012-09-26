@@ -16,7 +16,7 @@ module Capistrano
     def validate_git_vars
       unless exists?(:branch) && exists?(:stage)
         logger.log Capistrano::Logger::IMPORTANT, "Capistrano Deploytags requires that :branch and :stage be defined."
-        raise 'define :branch or :stage'
+        raise 'define :branch and :stage'
       end
     end
 
