@@ -34,7 +34,7 @@ describe Capistrano::DeployTags do
     context "with a clean git tree" do
       it "raises an error if :stage or :branch are undefined" do
         with_clean_repo do
-          lambda { configuration.find_and_execute_task('git:prepare_tree') }.should raise_error('define :branch or :stage')
+          lambda { configuration.find_and_execute_task('git:prepare_tree') }.should raise_error('define :branch and :stage')
         end
       end
 
