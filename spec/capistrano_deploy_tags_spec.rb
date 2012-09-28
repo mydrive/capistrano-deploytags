@@ -28,13 +28,13 @@ describe Capistrano::DeployTags do
       FileUtils.chdir '/tmp'
       configuration.set(:branch, 'master')
       configuration.set(:stage, 'test')
-      lambda { configuration.find_and_execute_task('git:prepare_tree') }.should raise_error('git checkout master failed!')
+      expect { configuration.find_and_execute_task('git:prepare_tree') }.to raise_error('git checkout master failed!')
     end
 
     context "with a clean git tree" do
       it "raises an error if :stage or :branch are undefined" do
         with_clean_repo do
-          lambda { configuration.find_and_execute_task('git:prepare_tree') }.should raise_error('define :branch and :stage')
+          expect { configuration.find_and_execute_task('git:prepare_tree') }.to raise_error('define :branch and :stage')
         end
       end
 
@@ -42,7 +42,7 @@ describe Capistrano::DeployTags do
         with_clean_repo do
           configuration.set(:branch, 'master')
           configuration.set(:stage, 'test')
-          lambda { configuration.find_and_execute_task('git:prepare_tree') }.should_not raise_error
+          expect { configuration.find_and_execute_task('git:prepare_tree') }.to_not raise_error
         end
       end
     end
@@ -56,7 +56,7 @@ describe Capistrano::DeployTags do
 
     it "does not raise an error when run from a clean tree" do
       with_clean_repo do
-        lambda { configuration.find_and_execute_task('git:tagdeploy') }.should_not raise_error
+        expect { configuration.find_and_execute_task('git:tagdeploy') }.to_not raise_error
       end
     end
 
