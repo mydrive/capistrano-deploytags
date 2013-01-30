@@ -45,10 +45,22 @@ module Capistrano
               logger.log Capistrano::Logger::IMPORTANT, "Sorry, you have uncommitted changes. Please commit or stash them."
             end
 
-            logger.log Capistrano::Logger::IMPORTANT, "Preparing to deploy HEAD from branch '#{branch}' to '#{stage}'"
+            cdt.safe_run "git", "fetch"
 
-            cdt.safe_run "git", "checkout", branch
-            cdt.safe_run "git", "pull", "origin", branch if cdt.has_remote?
+            ref = fetch(:revision, branch)
+
+            if exists?(:revision)
+              logger.log Capistrano::Logger::IMPORTANT, "Preparing to deploy '#{ref}' to '#{stage}'"
+            else
+              logger.log Capistrano::Logger::IMPORTANT, "Preparing to deploy HEAD from '#{ref}' to '#{stage}'"
+            end
+
+            cdt.safe_run "git", "checkout", ref
+
+            # It doesn't make sense to pull a SHA, only a branch.
+            if cdt.has_remote? && ! exists?(:revision)
+              cdt.safe_run "git", "pull", "origin", ref
+            end
           end
 
           desc 'add git tags for each successful deployment'
