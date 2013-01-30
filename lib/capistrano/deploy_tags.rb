@@ -1,8 +1,9 @@
 module Capistrano
   module DeployTags
-    def pending_git_changes?
-      # Do we have any changes vs HEAD on deployment branch?
-      !(`git fetch && git diff #{branch} --shortstat`.strip.empty?)
+
+    def uncommitted_git_changes?
+      # Is the working directory clean?
+      !( `git status --porcelain`.strip.empty? )
     end
 
     def git_tag_for(stage)
@@ -40,12 +41,11 @@ module Capistrano
           task :prepare_tree, :except => { :no_release => true } do
             cdt.validate_git_vars
 
-            logger.log Capistrano::Logger::IMPORTANT, "Preparing to deploy HEAD from branch '#{branch}' to '#{stage}'"
-
-            if cdt.pending_git_changes?
-              logger.log Capistrano::Logger::IMPORTANT, "Whoa there, partner. Dirty trees can't deploy. Git yerself clean first."
-              raise 'Dirty git tree'
+            if cdt.uncommitted_git_changes?
+              logger.log Capistrano::Logger::IMPORTANT, "Sorry, you have uncommitted changes. Please commit or stash them."
             end
+
+            logger.log Capistrano::Logger::IMPORTANT, "Preparing to deploy HEAD from branch '#{branch}' to '#{stage}'"
 
             cdt.safe_run "git", "checkout", branch
             cdt.safe_run "git", "pull", "origin", branch if cdt.has_remote?
