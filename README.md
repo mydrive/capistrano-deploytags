@@ -51,13 +51,21 @@ Helpful Git Config
 You might find it useful to add this to your ~/.gitconfig in order
 to get a nice history view of the commits and tags.
 
-```
+```ini
 [alias]
    lol = log --pretty=oneline --abbrev-commit --graph --decorate
 ```
 
 You can then view the list by typing `git lol` from the checked out
 code path.
+
+Deploying a Previous Commit
+---------------------------
+Because you have to actually be on the head of the branch you are
+deploying in order for tagging to work properly, deploying a previous
+commit doesn't work as you might expect. The simple solution is to
+create a new branch from the previous commit you wish to deploy and
+supplying `-S branch=<new branch>` as arguments to Capistrano.
 
 Credits
 -------
