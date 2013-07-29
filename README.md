@@ -62,6 +62,9 @@ dev-2013.07.22-144121 joshmyers deployed cf1ed1a02 to dev
 A little use of `grep` and you can easily get the history for a
 particular (e.g. `git tag -l -n1 | grep dev`).
 
+It should be noted that the names used when tags are created are the
+local user name on the box where the deployment is done.
+
 Helpful Git Config
 ------------------
 You might find it useful to add this to your ~/.gitconfig in order
