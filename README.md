@@ -46,6 +46,22 @@ clean checkout anyway, so in most cases this is not a restriction
 on how you already do things. The plugin will check if your code
 is clean and complain if it is not.
 
+Viewing Deployment History
+--------------------------
+It's trivial to view the deployment history for a repo. From a checkout
+of the repo, type `git tag -l -n1`. The output looks something like:
+
+```
+dev-2013.07.22-105130 baz deployed a4d522d9d to dev
+dev-2013.07.22-113207 karl deployed 4c43f8464 to dev
+dev-2013.07.22-114437 gavin deployed 776e15414 to dev
+dev-2013.07.22-115103 karl deployed 619ff5724 to dev
+dev-2013.07.22-144121 joshmyers deployed cf1ed1a02 to dev
+```
+
+A little use of `grep` and you can easily get the history for a
+particular (e.g. `git tag -l -n1 | grep dev`).
+
 Helpful Git Config
 ------------------
 You might find it useful to add this to your ~/.gitconfig in order
