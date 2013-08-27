@@ -66,7 +66,7 @@ lik so:
 set :no_deploytags, true
 ```
 
-You can also set this from the command line at any time with `-S no_deploytags`.
+You can also set this from the command line at any time with `-S no_deploytags=true`.
 
 *NOTE:* this will disable the use of the plugin's functionality entirely for
 that stage. The tasks will run, but will do nothing. This means that tasks that
