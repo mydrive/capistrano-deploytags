@@ -38,6 +38,8 @@ module Capistrano
         desc 'prepare git tree so we can tag on successful deployment'
         namespace :git do
           task :prepare_tree, :except => { :no_release => true } do
+            next if fetch(:no_deploytags, false)
+
             cdt.validate_git_vars
 
             logger.log Capistrano::Logger::IMPORTANT, "Preparing to deploy HEAD from branch '#{branch}' to '#{stage}'"
@@ -53,6 +55,8 @@ module Capistrano
 
           desc 'add git tags for each successful deployment'
           task :tagdeploy, :except => { :no_release => true } do
+            next if fetch(:no_deploytags, false)
+
             cdt.validate_git_vars
 
             current_sha = `git rev-parse #{branch} HEAD`.strip[0..8]
@@ -60,7 +64,6 @@ module Capistrano
 
             tag_user = (ENV['USER'] || ENV['USERNAME']).strip
             cdt.safe_run "git", "tag", "-a", cdt.git_tag_for(stage), "-m", "#{tag_user} deployed #{current_sha} to #{stage}"
-
             cdt.safe_run "git", "push", "--tags" if cdt.has_remote?
           end
         end

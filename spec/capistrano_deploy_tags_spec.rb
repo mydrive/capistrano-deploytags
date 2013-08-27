@@ -46,6 +46,16 @@ describe Capistrano::DeployTags do
         end
       end
     end
+
+    it "does not run when :no_deploytags is defined by (i.e. by the stage)" do
+      with_clean_repo do
+        configuration.set(:branch, 'master')
+        configuration.set(:stage, 'test')
+        configuration.set(:no_deploytags, true)
+        configuration.cdt.should_not_receive(:validate_git_vars)
+        expect { configuration.find_and_execute_task('git:prepare_tree') }.to_not raise_error
+      end
+    end
   end
 
   context "tagdeploy" do
@@ -67,6 +77,16 @@ describe Capistrano::DeployTags do
         tags = `git tag -l`.split(/\n/)
         tags.should have(1).items
         tags.first.should =~ /^test-\d{4}\.\d{2}\.\d{2}/
+      end
+    end
+
+    it "does not run when :no_deploytags is defined by (i.e. by the stage)" do
+      with_clean_repo do
+        configuration.set(:branch, 'master')
+        configuration.set(:stage, 'test')
+        configuration.set(:no_deploytags, true)
+        configuration.cdt.should_not_receive(:validate_git_vars)
+        expect { configuration.find_and_execute_task('git:prepare_tree') }.to_not raise_error
       end
     end
   end
