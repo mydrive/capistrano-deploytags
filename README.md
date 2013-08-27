@@ -53,6 +53,24 @@ work. The easiest way around this problem is to simply commit your changes
 before you deploy. You do not have to push them. The plugin will then
 happily carry on deploying without complaint.
 
+Disabling Tagging for a Stage
+-----------------------------
+Sometimes you do not want to enable deployment tagging for a particular
+stage. In that event, you can simply disable tagging by setting `no_deploytags`
+lik so:
+
+```ruby
+set :no_deploytags, true
+```
+
+You can also set this from the command line at any time with `-S no_deploytags`.
+
+*NOTE:* this will disable the use of the plugin's functionality entirely for
+that stage. The tasks will run, but will do nothing. This means that tasks that
+are hooked to the Capistrano Deploytags tasks will also still run, but they may
+find their expectations are not met with regards to the cleanliness of the git
+tree.
+
 Viewing Deployment History
 --------------------------
 It's trivial to view the deployment history for a repo. From a checkout
