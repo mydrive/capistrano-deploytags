@@ -39,12 +39,19 @@ In your Capistrano `config/deploy.rb` you should add:
 This will create two tasks, one that runs before deployment and one
 that runs after.
 
-NOTE: You will be creating and pushing tags from the version of the
-code in the current checkout. This plugin needs to be run from a
-clean checkout of your codebase. You should be deploying from a
-clean checkout anyway, so in most cases this is not a restriction
-on how you already do things. The plugin will check if your code
-is clean and complain if it is not.
+NOTE: You will be creating and pushing tags from the version of the code in the
+current checkout. This plugin needs to be run from a clean checkout of your
+codebase. You should be deploying from a clean checkout anyway, so in most
+cases this is not a restriction on how you already do things. The plugin will
+check if your code is clean and complain if it is not.
+
+Working on Your Deployment Scripts
+----------------------------------
+Because you must have a clean tree to deploy, working on your deployment
+scripts themselves can be a bit frustrating unless you know how to make it
+work. The easiest way around this problem is to simply commit your changes
+before you deploy. You do not have to push them. The plugin will then
+happily carry on deploying without complaint.
 
 Viewing Deployment History
 --------------------------
