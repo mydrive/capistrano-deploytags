@@ -32,28 +32,50 @@ describe Capistrano::DeployTags do
     end
 
     context "with a clean git tree" do
+      before :each do
+        configuration.set(:branch, 'master')
+        configuration.set(:stage,  'test')
+      end
+
       it "raises an error if :stage or :branch are undefined" do
         with_clean_repo do
+          configuration.unset(:branch)
+          configuration.unset(:stage)
           expect { configuration.find_and_execute_task('git:prepare_tree') }.to raise_error('define :branch and :stage')
         end
       end
 
       it "does not raise an error when run from a clean tree" do
         with_clean_repo do
-          configuration.set(:branch, 'master')
-          configuration.set(:stage, 'test')
           expect { configuration.find_and_execute_task('git:prepare_tree') }.to_not raise_error
         end
       end
-    end
 
-    it "does not run when :no_deploytags is defined by (i.e. by the stage)" do
-      with_clean_repo do
-        configuration.set(:branch, 'master')
-        configuration.set(:stage, 'test')
-        configuration.set(:no_deploytags, true)
-        configuration.cdt.should_not_receive(:validate_git_vars)
-        expect { configuration.find_and_execute_task('git:prepare_tree') }.to_not raise_error
+      it "does not run when :no_deploytags is defined by (i.e. by the stage)" do
+        with_clean_repo do
+          configuration.set(:no_deploytags, true)
+          configuration.cdt.should_not_receive(:validate_git_vars)
+          configuration.find_and_execute_task('git:prepare_tree')
+        end
+      end
+
+      it "uses a different remote when one is defined" do
+        with_clean_repo do
+          system('git remote add nowhere git@example.com:nowhere')
+          configuration.set(:git_remote, 'nowhere')
+          configuration.cdt.should_receive(:safe_run).with('git', 'checkout', 'master')
+          configuration.cdt.should_receive(:safe_run).with('git', 'pull', 'nowhere', 'master')
+          configuration.find_and_execute_task('git:prepare_tree')
+        end
+      end
+
+      it "uses the first remote when one is not specified" do
+        with_clean_repo do
+          system('git remote add somewhere git@example.com:somewhere')
+          configuration.cdt.should_receive(:safe_run).with('git', 'checkout', 'master')
+          configuration.cdt.should_receive(:safe_run).with('git', 'pull', 'somewhere', 'master')
+          configuration.find_and_execute_task('git:prepare_tree')
+        end
       end
     end
   end

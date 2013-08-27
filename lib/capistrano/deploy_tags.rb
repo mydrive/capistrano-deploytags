@@ -15,7 +15,7 @@ module Capistrano
 
     def validate_git_vars
       unless exists?(:branch) && exists?(:stage)
-        logger.log Capistrano::Logger::IMPORTANT, "Capistrano Deploytags requires that :branch and :stage be defined."
+        logger.log Capistrano::Logger::IMPORTANT, 'Capistrano Deploytags requires that :branch and :stage be defined.'
         raise 'define :branch and :stage'
       end
     end
@@ -28,12 +28,16 @@ module Capistrano
       !`git remote`.strip.empty?
     end
 
+    def remote
+      exists?(:git_remote) ? git_remote : `git remote`.strip.split(/\n/).first
+    end
+
     def self.load_into(configuration)
       configuration.load do
-        before "deploy", 'git:prepare_tree'
-        before "deploy:migrations", 'git:prepare_tree'
-        after  "deploy", 'git:tagdeploy'
-        after  "deploy:migrations", 'git:tagdeploy'
+        before 'deploy', 'git:prepare_tree'
+        before 'deploy:migrations', 'git:prepare_tree'
+        after  'deploy', 'git:tagdeploy'
+        after  'deploy:migrations', 'git:tagdeploy'
 
         desc 'prepare git tree so we can tag on successful deployment'
         namespace :git do
@@ -49,8 +53,9 @@ module Capistrano
               raise 'Dirty git tree'
             end
 
-            cdt.safe_run "git", "checkout", branch
-            cdt.safe_run "git", "pull", "origin", branch if cdt.has_remote?
+            cdt.safe_run 'git', 'checkout', branch
+            logger.log Capistrano::Logger::IMPORTANT, "Pulling from #{branch}"
+            cdt.safe_run 'git', 'pull', cdt.remote, branch if cdt.has_remote?
           end
 
           desc 'add git tags for each successful deployment'
@@ -63,8 +68,8 @@ module Capistrano
             logger.log Capistrano::Logger::INFO, "Tagging #{current_sha} for deployment"
 
             tag_user = (ENV['USER'] || ENV['USERNAME']).strip
-            cdt.safe_run "git", "tag", "-a", cdt.git_tag_for(stage), "-m", "#{tag_user} deployed #{current_sha} to #{stage}"
-            cdt.safe_run "git", "push", "--tags" if cdt.has_remote?
+            cdt.safe_run 'git', 'tag', '-a', cdt.git_tag_for(stage), '-m', "#{tag_user} deployed #{current_sha} to #{stage}"
+            cdt.safe_run 'git', 'push', '--tags' if cdt.has_remote?
           end
         end
 

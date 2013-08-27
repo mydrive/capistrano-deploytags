@@ -50,6 +50,13 @@ system that will actually be deployed before checking the tree for changes.
 Know this ahead of time as this may affect how you deal with your deployment
 branches.
 
+Setting the Remote
+------------------
+By default, Capistrano Deploytags will use the first remote in the list returned
+by `git remote`. If you prefer to use a different remote, then you may change the
+`:git_remote` setting from your `deploy.rb`, the stage, or on the command line with
+`-S git_remote=your-remote`.
+
 Working on Your Deployment Scripts
 ----------------------------------
 Because you must have a clean tree to deploy, working on your deployment
