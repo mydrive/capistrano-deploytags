@@ -53,6 +53,9 @@ work. The easiest way around this problem is to simply commit your changes
 before you deploy. You do not have to push them. The plugin will then
 happily carry on deploying without complaint.
 
+Alternatively, you could disable the plugin temporarily with one of the
+methods described below.
+
 Disabling Tagging for a Stage
 -----------------------------
 Sometimes you do not want to enable deployment tagging for a particular
