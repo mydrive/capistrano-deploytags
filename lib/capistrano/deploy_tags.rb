@@ -6,7 +6,7 @@ module Capistrano
     end
 
     def git_tag_for(stage)
-      "#{stage}-#{Time.now.strftime("%Y.%m.%d-%H%M%S")}"
+      "#{stage}-#{Time.new.utc.strftime('%Y.%m.%d-%H%M%S')}"
     end
 
     def safe_run(*args)
