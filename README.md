@@ -126,6 +126,14 @@ commit doesn't work as you might expect. The simple solution is to
 create a new branch from the previous commit you wish to deploy and
 supplying `-S branch=<new branch>` as arguments to Capistrano.
 
+Running from Jenkins
+--------------------
+Because Jenkins will check out the code with the current revision 
+number you will be in a detached state. This causes the plugin to be 
+unhappy about the git tree. The solution is to add `-S branch=$GIT_COMMIT` 
+to the cap deploy line called from your Jenkins build. This will cause
+the diffs and comparisons done by the deploytags gem to be correct.
+
 Credits
 -------
 This software was written by [Karl Matthias](https://github.com/relistan)
