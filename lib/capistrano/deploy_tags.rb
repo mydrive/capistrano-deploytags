@@ -2,7 +2,12 @@ module Capistrano
   module DeployTags
     def pending_git_changes?
       # Do we have any changes vs HEAD on deployment branch?
-      !(`git fetch && git diff #{branch} --shortstat`.strip.empty?)
+      out = `git fetch 2>&1`
+      if $?.success?
+        ! (`git diff #{branch} --shortstat`.strip.empty?)
+      else
+        raise CommandError.new("git fetch failed:\n" + out)
+      end
     end
 
     def git_tag_for(stage)
