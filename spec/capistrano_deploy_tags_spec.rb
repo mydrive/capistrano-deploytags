@@ -24,11 +24,19 @@ describe Capistrano::DeployTags do
   end
 
   context "prepare_tree" do
-    it "raises an error when not in a git tree" do
-      FileUtils.chdir '/tmp'
+    before :each do
       configuration.set(:branch, 'master')
       configuration.set(:stage, 'test')
+    end
+
+    it "raises an error when not in a git tree" do
+      FileUtils.chdir '/tmp'
       expect { configuration.find_and_execute_task('git:prepare_tree') }.to raise_error('git checkout master failed!')
+    end
+
+    it "raises when unable to fetch" do
+      configuration.cdt.should_receive(:exec_success?).and_return(false)
+      expect { configuration.find_and_execute_task('git:prepare_tree') }.to raise_error(/'git fetch origin' failed/)
     end
 
     context "with a clean git tree" do

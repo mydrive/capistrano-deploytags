@@ -2,11 +2,9 @@ module Capistrano
   module DeployTags
     def pending_git_changes?
       # Do we have any changes vs HEAD on deployment branch?
-      out = `git fetch 2>&1`
-      if $?.success?
-        ! (`git diff #{branch} --shortstat`.strip.empty?)
-      else
-        raise CommandError.new("git fetch failed:\n" + out)
+      `git fetch #{remote}`.tap do |output|
+        return !(`git diff #{branch} --shortstat`.strip.empty?) if exec_success?
+        raise "'git fetch #{remote}' failed:\n #{output}"
       end
     end
 
@@ -16,6 +14,10 @@ module Capistrano
 
     def safe_run(*args)
       raise "#{args.join(" ")} failed!" unless system(*args)
+    end
+
+    def exec_success?
+      $?.success?
     end
 
     def validate_git_vars
