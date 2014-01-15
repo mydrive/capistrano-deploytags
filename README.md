@@ -16,7 +16,7 @@ If I were to issue the command:
 This would result in one new git tag with the environment and
 timestamp:
 
-`production-2012.04.02-203155`
+`production-2012.04.02-203155-utc`
 
 These tags can be used for any number of useful things including
 generating statistics about deployments per day/week/year, tracking
