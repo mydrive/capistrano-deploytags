@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   EOS
   s.authors     = ["Karl Matthias"]
   s.email       = 'relistan@gmail.com'
-  s.files       = `git ls-files`.split(/\n/) + %w{ README.md LICENSE }
+  s.files       = `git ls-files lib`.split(/\n/) + %w{ README.md LICENSE }
   s.homepage    = 'http://github.com/mydrive/capistrano-deploytags'
   s.add_dependency 'capistrano'
   s.add_dependency 'capistrano-ext'
