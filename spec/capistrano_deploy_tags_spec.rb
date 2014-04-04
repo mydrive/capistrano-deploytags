@@ -116,6 +116,17 @@ describe Capistrano::DeployTags do
       end
     end
 
+    it "respects deploytag_suffix setting" do
+      with_clean_repo do
+        configuration.set(:deploytag_suffix, ' [ci skip]')
+        configuration.find_and_execute_task('git:tagdeploy')
+
+        tags = `git tag -l -n1`.split(/\n/)
+        tags.should have(1).items
+        tags.first.should =~ /\[ci skip\]/
+      end
+    end
+
     it "does not run when :no_deploytags is defined by (i.e. by the stage)" do
       with_clean_repo do
         configuration.set(:branch, 'master')
