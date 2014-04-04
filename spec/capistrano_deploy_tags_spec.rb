@@ -17,7 +17,7 @@ describe Capistrano::DeployTags do
     FileUtils.rm_rf tmpdir
     FileUtils.mkdir tmpdir
     FileUtils.chdir tmpdir
-    raise unless system("/usr/bin/tar xzf #{File.join(mypath, 'fixtures', 'git-fixture.tar.gz')}")
+    raise unless system("tar xzf #{File.join(mypath, 'fixtures', 'git-fixture.tar.gz')}")
     FileUtils.chdir "#{tmpdir}/git-fixture"
     yield
     FileUtils.rm_rf tmpdir
