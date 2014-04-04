@@ -17,7 +17,7 @@ describe Capistrano::DeployTags do
     FileUtils.rm_rf tmpdir
     FileUtils.mkdir tmpdir
     FileUtils.chdir tmpdir
-    raise unless system("/usr/bin/tar xzf #{File.join(mypath, 'fixtures', 'git-fixture.tar.gz')}")
+    raise unless system("tar xzf #{File.join(mypath, 'fixtures', 'git-fixture.tar.gz')}")
     FileUtils.chdir "#{tmpdir}/git-fixture"
     yield
     FileUtils.rm_rf tmpdir
@@ -113,6 +113,17 @@ describe Capistrano::DeployTags do
         tags = `git tag -l`.split(/\n/)
         tags.should have(1).items
         tags.first.should =~ /^test-\d{4}\.\d{2}\.\d{2}/
+      end
+    end
+
+    it "respects deploytag_suffix setting" do
+      with_clean_repo do
+        configuration.set(:deploytag_suffix, ' [ci skip]')
+        configuration.find_and_execute_task('git:tagdeploy')
+
+        tags = `git tag -l -n1`.split(/\n/)
+        tags.should have(1).items
+        tags.first.should =~ /\[ci skip\]/
       end
     end
 

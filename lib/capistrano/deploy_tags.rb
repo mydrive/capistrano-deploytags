@@ -75,7 +75,8 @@ module Capistrano
             logger.log Capistrano::Logger::INFO, "Tagging #{current_sha} for deployment"
 
             tag_user = (ENV['USER'] || ENV['USERNAME']).strip
-            cdt.safe_run 'git', 'tag', '-a', cdt.git_tag_for(stage), '-m', "#{tag_user} deployed #{current_sha} to #{stage}"
+            suffix = fetch(:deploytag_suffix, '')
+            cdt.safe_run 'git', 'tag', '-a', cdt.git_tag_for(stage), '-m', "#{tag_user} deployed #{current_sha} to #{stage} #{suffix}".strip
             cdt.safe_run 'git', 'push', '--tags' if cdt.has_remote?
           end
         end
