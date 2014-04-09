@@ -72,7 +72,7 @@ Disabling Tagging for a Stage
 -----------------------------
 Sometimes you do not want to enable deployment tagging for a particular
 stage. In that event, you can simply disable tagging by setting `no_deploytags`
-lik so:
+like so:
 
 ```ruby
 set :no_deploytags, true
@@ -85,6 +85,15 @@ that stage. The tasks will run, but will do nothing. This means that tasks that
 are hooked to the Capistrano Deploytags tasks will also still run, but they may
 find their expectations are not met with regards to the cleanliness of the git
 tree.
+
+Customizing the Tag Format
+--------------------------
+You may override the time format in `config/deploy.rb`:
+
+```ruby
+set :deploytag_time_format, "%Y.%m.%d-%H%M%S-utc"
+```
+
 
 Viewing Deployment History
 --------------------------

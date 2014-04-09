@@ -9,7 +9,11 @@ module Capistrano
     end
 
     def git_tag_for(stage)
-      "#{stage}-#{Time.new.utc.strftime('%Y.%m.%d-%H%M%S-utc')}"
+      "#{stage}-#{formatted_time}"
+    end
+
+    def formatted_time
+      Time.new.utc.strftime(fetch(:deploytag_time_format, "%Y.%m.%d-%H%M%S-utc"))
     end
 
     def safe_run(*args)
