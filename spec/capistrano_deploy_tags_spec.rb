@@ -29,13 +29,13 @@ describe Capistrano::DeployTags do
       configuration.set(:stage, 'test')
     end
 
-    it "raises an error when not in a git tree" do
+    it 'raises an error when not in a git tree' do
       FileUtils.chdir '/tmp'
       configuration.cdt.stub(exec_success?: true)
       expect { configuration.find_and_execute_task('git:prepare_tree') }.to raise_error('git checkout master failed!')
     end
 
-    it "raises when unable to fetch" do
+    it 'raises when unable to fetch' do
       with_clean_repo do
         configuration.cdt.should_receive(:exec_success?).and_return(false)
         expect { configuration.find_and_execute_task('git:prepare_tree') }.to raise_error(/'git fetch ' failed/)
@@ -48,7 +48,7 @@ describe Capistrano::DeployTags do
         configuration.set(:stage,  'test')
       end
 
-      it "raises an error if :stage or :branch are undefined" do
+      it 'raises an error if :stage or :branch are undefined' do
         with_clean_repo do
           configuration.unset(:branch)
           configuration.unset(:stage)
@@ -56,14 +56,14 @@ describe Capistrano::DeployTags do
         end
       end
 
-      it "does not raise an error when run from a clean tree" do
+      it 'does not raise an error when run from a clean tree' do
         with_clean_repo do
           configuration.cdt.stub(exec_success?: true)
           expect { configuration.find_and_execute_task('git:prepare_tree') }.to_not raise_error
         end
       end
 
-      it "does not run when :no_deploytags is defined by (i.e. by the stage)" do
+      it 'does not run when :no_deploytags is defined by (i.e. by the stage)' do
         with_clean_repo do
           configuration.set(:no_deploytags, true)
           configuration.cdt.should_not_receive(:validate_git_vars)
@@ -71,7 +71,7 @@ describe Capistrano::DeployTags do
         end
       end
 
-      it "uses a different remote when one is defined" do
+      it 'uses a different remote when one is defined' do
         with_clean_repo do
           system('git remote add nowhere git@example.com:nowhere')
           configuration.set(:git_remote, 'nowhere')
@@ -82,7 +82,7 @@ describe Capistrano::DeployTags do
         end
       end
 
-      it "uses the first remote when one is not specified" do
+      it 'uses the first remote when one is not specified' do
         with_clean_repo do
           configuration.cdt.stub(pending_git_changes?: false)
           system('git remote add somewhere git@example.com:somewhere')
@@ -100,13 +100,13 @@ describe Capistrano::DeployTags do
       configuration.set(:stage, 'test')
     end
 
-    it "does not raise an error when run from a clean tree" do
+    it 'does not raise an error when run from a clean tree' do
       with_clean_repo do
         expect { configuration.find_and_execute_task('git:tagdeploy') }.to_not raise_error
       end
     end
 
-    it "adds appropriate git tags" do
+    it 'adds appropriate git tags' do
       with_clean_repo do
         configuration.find_and_execute_task('git:tagdeploy')
 
@@ -116,13 +116,23 @@ describe Capistrano::DeployTags do
       end
     end
 
-    it "does not run when :no_deploytags is defined by (i.e. by the stage)" do
+    it 'does not run when :no_deploytags is defined by (i.e. by the stage)' do
       with_clean_repo do
         configuration.set(:branch, 'master')
         configuration.set(:stage, 'test')
         configuration.set(:no_deploytags, true)
         configuration.cdt.should_not_receive(:validate_git_vars)
         expect { configuration.find_and_execute_task('git:prepare_tree') }.to_not raise_error
+      end
+    end
+
+    it 'supports configurable timestamp formats' do
+      with_clean_repo do
+        configuration.set(:deploytag_time_format, '%Y-%m-%d')
+        configuration.find_and_execute_task('git:tagdeploy')
+        tags = `git tag -l`.split(/\n/)
+        tags.should have(1).items
+        tags.first.should =~ /^test-\d{4}-\d{2}-\d{2}/
       end
     end
   end
