@@ -17,7 +17,7 @@ describe Capistrano::DeployTags do
     FileUtils.rm_rf tmpdir
     FileUtils.mkdir tmpdir
     FileUtils.chdir tmpdir
-    raise unless system("/usr/bin/tar xzf #{File.join(mypath, 'fixtures', 'git-fixture.tar.gz')}")
+    raise unless system("`which tar` xzf #{File.join(mypath, 'fixtures', 'git-fixture.tar.gz')}")
     FileUtils.chdir "#{tmpdir}/git-fixture"
     yield
     FileUtils.rm_rf tmpdir
@@ -133,6 +133,16 @@ describe Capistrano::DeployTags do
         tags = `git tag -l`.split(/\n/)
         tags.should have(1).items
         tags.first.should =~ /^test-\d{4}-\d{2}-\d{2}/
+      end
+    end
+
+    it 'supports configurable commit messages' do
+      with_clean_repo do
+        configuration.set(:deploytag_commit_message, 'This is my custom commit message')
+        configuration.find_and_execute_task('git:tagdeploy')
+        tags = `git tag -l -n40`.split(/\n/)
+        tags.should have(1).items
+        tags.first.should =~ /This is my custom commit message/
       end
     end
   end
