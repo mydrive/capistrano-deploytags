@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/capistrano-deploytags.svg)](http://badge.fury.io/rb/capistrano-deploytags)
 Capistrano Deployment Tags
 ==========================
 This plugin to Capistrano will add a timestamped Git tag
