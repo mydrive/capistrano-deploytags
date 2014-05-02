@@ -94,6 +94,13 @@ You may override the time format in `config/deploy.rb`:
 set :deploytag_time_format, "%Y.%m.%d-%H%M%S-utc"
 ```
 
+Customizing the Tag Commit Message
+----------------------------------
+By default, Capistrano Deploytags will create a tag with a message that indicates
+the local user name on the box where the deployment is done, and the hash of the
+tagged commit. If you prefer to have a more detailed commit message you may override
+the `:deploytag_commit_message` setting from your `deploy.rb` or on the command line
+with `-S deploytag_commit_message='This is my commit message for the deployed tag'`.
 
 Viewing Deployment History
 --------------------------
@@ -107,7 +114,6 @@ dev-2013.07.22-114437 gavin deployed 776e15414 to dev
 dev-2013.07.22-115103 karl deployed 619ff5724 to dev
 dev-2013.07.22-144121 joshmyers deployed cf1ed1a02 to dev
 ```
-
 A little use of `grep` and you can easily get the history for a
 particular (e.g. `git tag -l -n1 | grep dev`).
 
@@ -137,9 +143,9 @@ supplying `-S branch=<new branch>` as arguments to Capistrano.
 
 Running from Jenkins
 --------------------
-Because Jenkins will check out the code with the current revision 
-number you will be in a detached state. This causes the plugin to be 
-unhappy about the git tree. The solution is to add `-S branch=$GIT_COMMIT` 
+Because Jenkins will check out the code with the current revision
+number you will be in a detached state. This causes the plugin to be
+unhappy about the git tree. The solution is to add `-S branch=$GIT_COMMIT`
 to the cap deploy line called from your Jenkins build. This will cause
 the diffs and comparisons done by the deploytags gem to be correct.
 
