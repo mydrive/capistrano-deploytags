@@ -9,7 +9,7 @@ namespace :deploy do
         stage = fetch(:stage, false)
 
         unless branch && stage
-          warn 'capistrano-deploytags requires that :branch and :stage be defined'
+          error 'capistrano-deploytags requires that :branch and :stage be defined'
           raise 'define :branch and :stage'
         end
 
