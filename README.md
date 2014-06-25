@@ -44,11 +44,11 @@ group :deployment do
 end
 ```
 
-Then require `capistrano-deploytags/capistrano` in your Capfile
+Then require `capistrano/deploytags` in your Capfile
 
 ```
 # Capfile
-require 'capistrano-deploytags/capistrano'
+require 'capistrano/deploytags'
 ```
 
 This will create two tasks, one that runs before the `deploy` task, and one
