@@ -11,7 +11,13 @@ module CapistranoDeploytags
     end
 
     def self.formatted_time
-      Time.new.utc.strftime(fetch(:deploytag_time_format, "%Y.%m.%d-%H%M%S-utc"))
+      now = if fetch(:deploytag_utc, true)
+        Time.now.utc
+      else
+        Time.now
+      end
+
+      now.strftime(fetch(:deploytag_time_format, "%Y.%m.%d-%H%M%S-#{now.zone.downcase}"))
     end
 
     def self.commit_message(current_sha, stage)
