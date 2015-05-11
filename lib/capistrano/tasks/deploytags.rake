@@ -39,8 +39,10 @@ namespace :deploy do
         latest_revision = fetch(:current_revision)
         commit_message = CapistranoDeploytags::Helper.commit_message(latest_revision, fetch(:stage))
 
-        strategy.git "tag -a #{tag_name} -m \"#{commit_message}\" #{latest_revision}"
-        strategy.git "push #{fetch(:git_remote, 'origin')} #{tag_name}"
+        unless fetch(:sshkit_backend) ==  SSHKit::Backend::Printer # unless --dry-run flag present
+          strategy.git "tag -a #{tag_name} -m \"#{commit_message}\" #{latest_revision}"
+          strategy.git "push #{fetch(:git_remote, 'origin')} #{tag_name}"
+        end
 
         info "[cap-deploy-tagger] Tagged #{latest_revision} with #{tag_name}"
       end
