@@ -39,7 +39,7 @@ to the `development` group of your Gemfile with `require: false`:
 
 ```ruby
 # Gemfile
-group :deployment do
+group :development do
   gem 'capistrano-deploytags', '~> 1.0.0', require: false
 end
 ```
