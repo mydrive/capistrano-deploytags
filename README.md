@@ -109,6 +109,12 @@ You may override the time format in `deploy.rb` or your stage:
 set :deploytag_time_format, "%Y.%m.%d-%H%M%S-utc"
 ```
 
+To use your local time and not UTC (so that ```Time.now``` and not ```Time.now.utc``` is used internally):
+
+```ruby
+set :deploytag_utc, false
+```
+
 ### Customizing the Tag Commit Message
 
 By default, Capistrano Deploytags will create a tag with a message that indicates
