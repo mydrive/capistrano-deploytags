@@ -35,7 +35,7 @@ namespace :deploy do
       if ENV['NO_DEPLOYTAGS'] || fetch(:no_deploytags, false)
         info "[deploytags] Skipping deploytags"
       else
-        tag_name = CapistranoDeploytags::Helper.git_tag_for(fetch(:stage))
+        tag_name = ENV['CUSTOM_DEPLOYTAG'] || fetch(:custom_deploytag) || CapistranoDeploytags::Helper.git_tag_for(fetch(:stage))
         latest_revision = fetch(:current_revision)
         commit_message = CapistranoDeploytags::Helper.commit_message(latest_revision, fetch(:stage))
 
