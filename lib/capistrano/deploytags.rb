@@ -22,7 +22,7 @@ module CapistranoDeploytags
 
     def self.commit_message(current_sha, stage)
       if fetch(:deploytag_commit_message, false)
-        deploytag_commit_message
+        fetch(:deploytag_commit_message)
       else
         tag_user = (ENV['USER'] || ENV['USERNAME'] || 'deployer').strip
         "#{tag_user} deployed #{current_sha} to #{stage}"
