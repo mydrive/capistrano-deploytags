@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.name        = 'capistrano-deploytags'
   s.license     = 'BSD-2-Clause'
-  s.version     = '1.0.4'
-  s.date        = '2015-10-18'
+  s.version     = '1.0.6'
+  s.date        = '2017-01-06'
   s.summary     = 'Add dated, environment-specific tags to your git repo at each deployment.'
   s.description = <<-EOS
   Capistrano Deploytags is a simple plugin to Capistrano 3 that works with your deployment framework to track your code releases. All you have to do is require capistrano-deploytags/capistrano and each deployment will add a new tag for that deployment, pointing to the latest commit. This lets you easily see which code is deployed on each environment, and allows you to figure out which code was running in an environment at any time in the past.
