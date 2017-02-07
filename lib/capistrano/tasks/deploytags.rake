@@ -13,7 +13,7 @@ namespace :deploy do
           raise 'define :branch and :stage'
         end
 
-        strategy.git "fetch #{fetch(:git_remote, 'origin')}"
+        execute :git, "fetch #{fetch(:git_remote, 'origin')}"
 
         diff_output = capture :git, "diff #{branch} --shortstat"
 
@@ -22,9 +22,9 @@ namespace :deploy do
           raise 'Dirty git tree'
         end
 
-        strategy.git "checkout #{branch}"
+        execute :git, "checkout #{branch}"
         info "Pulling from #{branch}"
-        strategy.git "pull #{fetch(:git_remote, 'origin')} #{branch}"
+        execute :git, "pull #{fetch(:git_remote, 'origin')} #{branch}"
       end
     end
   end
@@ -40,8 +40,8 @@ namespace :deploy do
         commit_message = CapistranoDeploytags::Helper.commit_message(latest_revision, fetch(:stage))
 
         unless fetch(:sshkit_backend) ==  SSHKit::Backend::Printer # unless --dry-run flag present
-          strategy.git "tag -a #{tag_name} -m \"#{commit_message}\" #{latest_revision}"
-          strategy.git "push #{fetch(:git_remote, 'origin')} #{tag_name}"
+          execute :git, "tag -a #{tag_name} -m \"#{commit_message}\" #{latest_revision}"
+          execute :git, "push #{fetch(:git_remote, 'origin')} #{tag_name}"
         end
 
         info "[cap-deploy-tagger] Tagged #{latest_revision} with #{tag_name}"

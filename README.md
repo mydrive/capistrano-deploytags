@@ -8,10 +8,13 @@ but as Capistrano 3 is multistage by default (unlike Cap 2) :stage should
 already be set, but you can override the variable if you want to change the
 name of the tag.
 
-### Requires Capistrano 3
+### Requires Capistrano 3.7
 
-As of version 1.0.0, this plugin requires Cap 3. If you need a Capistrano
-2 compatible version, then use `gem 'capistrano-deploytags', '~> 0.9.2'`
+As of version 1.0.7, this plugin requires Cap 3.7.
+
+If you need a Capistrano < 3.7 compatible version, then use `gem 'capistrano-deploytags', '1.0.6'`
+
+If you need a Capistrano 2 compatible version, then use `gem 'capistrano-deploytags', '~> 0.9.2'`
 
 ### What It Does
 
